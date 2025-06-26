@@ -40,22 +40,24 @@
       top: 20px;
       left: 20px;
       z-index: 100;
+      transition: all 0.3s ease;
       display: flex;
       align-items: center;
       overflow: hidden;
-      width: 40px;
-      height: 40px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       background: none;
       padding: 0;
-      transition: all 0.3s ease;
     }
 
     .header img {
-      width: 40px;
-      height: 40px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       object-fit: cover;
+      flex-shrink: 0;
+      flex-grow: 0;
     }
 
     .header span {
@@ -66,13 +68,13 @@
       .header {
         background-color: rgba(255, 255, 255, 0.7);
         padding: 10px;
-        width: 60px;
+        width: 50px;
         height: auto;
         border-radius: 50px;
       }
 
       .header:hover {
-        width: 210px;
+        width: 200px;
       }
 
       .header span {
@@ -84,7 +86,6 @@
         font-size: 16px;
         color: #333;
         transition: opacity 0.3s ease;
-        margin-right: 10px;
       }
 
       .header:hover span {
@@ -92,17 +93,24 @@
       }
     }
 
+    @media (max-width: 500px) {
+      .header span {
+        display: none !important;
+      }
+    }
+
     .card {
       background-color: var(--card-bg);
       backdrop-filter: var(--blur);
-      padding: 35px 25px;
+      padding: 30px 20px;
       border-radius: 20px;
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
       text-align: center;
       width: 90%;
-      max-width: 420px;
+      max-width: 500px;
       overflow: visible;
       animation: fadeInCard 1s ease;
+      position: relative;
     }
 
     @keyframes fadeInCard {
@@ -122,20 +130,25 @@
       margin-bottom: 25px;
     }
 
-    .download-btn {
+    .download-btn,
+    a.download-btn {
       background-color: var(--main-color);
       color: white;
       border: none;
-      padding: 14px 20px;
+      padding: 14px 28px;
       font-size: 16px;
       border-radius: 12px;
       cursor: pointer;
       margin: 8px 0;
       transition: all 0.3s ease;
+      text-decoration: none;
+      display: block;
       width: 100%;
+      max-width: 100%;
     }
 
-    .download-btn:hover {
+    .download-btn:hover,
+    a.download-btn:hover {
       background-color: var(--hover-color);
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -154,6 +167,7 @@
       max-height: 500px;
       transform: translateY(0);
       margin-top: 20px;
+      animation: fadeInSection 0.8s ease;
     }
 
     .checkboxes {
@@ -166,28 +180,15 @@
       margin-bottom: 10px;
       font-size: 15px;
     }
-
-    @media (max-width: 500px) {
-      .card {
-        padding: 25px 18px;
-      }
-
-      .download-btn {
-        padding: 12px 16px;
-        font-size: 15px;
-      }
-    }
   </style>
 </head>
 <body>
 
-  <!-- Logo + اسم -->
   <div class="header">
     <img src="My logo.png" alt="Al-Hussien">
     <span>&lt;/Al-Hussien&gt; 👨‍💻</span>
   </div>
 
-  <!-- الكارت -->
   <div class="card">
     <h1>تحميل التطبيقات</h1>
     <p>اختر الطريقة المناسبة للتحميل:</p>
@@ -212,16 +213,16 @@
 
   <script>
     function toggleSection() {
-      document.getElementById('appSection').classList.toggle('show');
+      const section = document.getElementById('appSection');
+      section.classList.toggle('show');
     }
 
     function forceDownload(url) {
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = '';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = url;
+      document.body.appendChild(iframe);
+      setTimeout(() => document.body.removeChild(iframe), 5000);
     }
 
     function downloadSelected() {
