@@ -297,6 +297,48 @@
       border-radius: 10px;
       margin: 10px 0;
     }
+    
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden;
+      overflow-y: hidden;
+    }
+
+    body {
+      display: block;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      backdrop-filter: var(--blur);
+      padding: 24px 16px 32px 16px;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      width: calc(100% - 32px);
+      max-width: 480px;
+      margin: 60px auto;
+    }
+
+    .download-btn,
+    a.download-btn {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      padding: 14px 20px;
+      font-size: 15px;
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+
+    .section {
+      max-height: 400px;
+      overflow-y: auto;
+    }
     </style>
 </head>
 <body>
