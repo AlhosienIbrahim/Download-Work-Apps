@@ -22,7 +22,7 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(to right, #74ebd5, #ACB6E5);
       height: 100%;
-      overflow: hidden;
+      overflow-x: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -108,7 +108,7 @@
       text-align: center;
       width: 90%;
       max-width: 500px;
-      overflow: hidden;
+      overflow: visible;
       animation: fadeInCard 1s ease;
       position: relative;
     }
@@ -193,7 +193,7 @@
     <h1>تحميل التطبيقات</h1>
     <p>اختر الطريقة المناسبة للتحميل:</p>
 
-    <button class="download-btn" onclick="directDownload('https://store-eu-par-3.gofile.io/download/web/e0ef29e9-3cf4-4011-b4d4-150b6e7aaecb/Work%20Apps.zip')">
+    <button class="download-btn" onclick="forceDownload('https://store-eu-par-3.gofile.io/download/web/e0ef29e9-3cf4-4011-b4d4-150b6e7aaecb/Work%20Apps.zip')">
       تحميل كل التطبيقات
     </button>
 
@@ -217,13 +217,12 @@
       section.classList.toggle('show');
     }
 
-    function directDownload(url) {
-      const a = document.createElement('a');
-      a.href = url;
-      a.setAttribute('download', '');
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+    function forceDownload(url) {
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = url;
+      document.body.appendChild(iframe);
+      setTimeout(() => document.body.removeChild(iframe), 5000);
     }
 
     function downloadSelected() {
@@ -233,7 +232,7 @@
         return;
       }
       checkboxes.forEach(cb => {
-        directDownload(cb.value);
+        forceDownload(cb.value);
       });
     }
   </script>
