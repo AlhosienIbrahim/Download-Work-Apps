@@ -193,20 +193,50 @@
     }
   
     html, body {
-      min-height: 100%;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
       overflow-y: auto;
       box-sizing: border-box;
     }
 
     body {
-      display: block;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       padding: 20px 10px;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     .card {
+      background-color: var(--card-bg);
+      backdrop-filter: var(--blur);
+      padding: 24px 16px;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      text-align: center;
       width: 100%;
       max-width: 480px;
       box-sizing: border-box;
+    }
+
+    .download-btn,
+    a.download-btn {
+      background-color: var(--main-color);
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      font-size: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 10px auto;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: block;
+      width: 100%;
+      max-width: 300px;
     }
 
     @media (max-width: 500px) {
@@ -218,14 +248,15 @@
         font-size: 14px;
       }
 
-      .download-btn,
-      a.download-btn {
-        font-size: 14px;
-        padding: 12px 16px;
-      }
-
       .checkboxes label {
         font-size: 14px;
+      }
+
+      .header {
+        top: 10px;
+        left: 10px;
+        width: 28px;
+        height: 28px;
       }
     }
     </style>
