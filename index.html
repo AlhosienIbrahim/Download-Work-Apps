@@ -12,12 +12,16 @@
       --blur: blur(12px);
     }
 
-    body {
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(to right, #74ebd5, #ACB6E5);
-      height: 100vh;
+      height: 100%;
       overflow: hidden;
       display: flex;
       align-items: center;
@@ -98,14 +102,13 @@
     .card {
       background-color: var(--card-bg);
       backdrop-filter: var(--blur);
-      padding: 40px 30px;
+      padding: 30px 20px;
       border-radius: 20px;
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
       text-align: center;
-      max-width: 500px;
       width: 90%;
-      max-height: 85vh;
-      overflow-y: auto;
+      max-width: 500px;
+      overflow: hidden;
       animation: fadeInCard 1s ease;
       position: relative;
     }
@@ -116,7 +119,7 @@
     }
 
     .card h1 {
-      font-size: 28px;
+      font-size: 24px;
       margin-bottom: 10px;
       color: #222;
     }
@@ -136,10 +139,12 @@
       font-size: 16px;
       border-radius: 12px;
       cursor: pointer;
-      margin: 8px;
+      margin: 8px 0;
       transition: all 0.3s ease;
       text-decoration: none;
-      display: inline-block;
+      display: block;
+      width: 100%;
+      max-width: 100%;
     }
 
     .download-btn:hover,
@@ -165,34 +170,15 @@
       animation: fadeInSection 0.8s ease;
     }
 
-    @keyframes fadeInSection {
-      from { opacity: 0; transform: translateY(-15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
     .checkboxes {
       text-align: right;
       margin-bottom: 15px;
-      animation: fadeIn 0.8s ease;
     }
 
     .checkboxes label {
       display: block;
       margin-bottom: 10px;
       font-size: 15px;
-    }
-
-    @media (max-width: 500px) {
-      .card {
-        padding: 30px 20px;
-      }
-
-      .download-btn,
-      a.download-btn {
-        width: 100%;
-        padding: 12px 18px;
-        font-size: 15px;
-      }
     }
   </style>
 </head>
@@ -207,9 +193,9 @@
     <h1>تحميل التطبيقات</h1>
     <p>اختر الطريقة المناسبة للتحميل:</p>
 
-    <a class="download-btn" href="https://store-eu-par-3.gofile.io/download/web/e0ef29e9-3cf4-4011-b4d4-150b6e7aaecb/Work%20Apps.zip" download>
+    <button class="download-btn" onclick="directDownload('https://store-eu-par-3.gofile.io/download/web/e0ef29e9-3cf4-4011-b4d4-150b6e7aaecb/Work%20Apps.zip')">
       تحميل كل التطبيقات
-    </a>
+    </button>
 
     <button class="download-btn" onclick="toggleSection()">تحميل تطبيق معين</button>
 
@@ -231,6 +217,15 @@
       section.classList.toggle('show');
     }
 
+    function directDownload(url) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.setAttribute('download', '');
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
     function downloadSelected() {
       const checkboxes = document.querySelectorAll('.checkboxes input[type="checkbox"]:checked');
       if (checkboxes.length === 0) {
@@ -238,13 +233,7 @@
         return;
       }
       checkboxes.forEach(cb => {
-        const a = document.createElement('a');
-        a.href = cb.value;
-        a.download = '';
-        a.style.display = 'none';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+        directDownload(cb.value);
       });
     }
   </script>
