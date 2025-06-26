@@ -2,39 +2,52 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>تحميل التطبيقات</title>
+  <title>Download Work Apps</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     :root {
       --main-color: #28a745;
       --hover-color: #218838;
-      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --blur: blur(12px);
     }
 
     * {
       box-sizing: border-box;
     }
 
-    body {
+    html, body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, sans-serif;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(to right, #74ebd5, #ACB6E5);
+      height: 100%;
+      overflow-x: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      padding: 20px;
+      flex-direction: column;
+      animation: fadeInBody 1s ease;
+    }
+
+    @keyframes fadeInBody {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .header {
       position: absolute;
       top: 20px;
       left: 20px;
+      z-index: 100;
       display: flex;
       align-items: center;
       overflow: hidden;
-      background: transparent;
-      border-radius: 50px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: none;
+      padding: 0;
       transition: all 0.3s ease;
     }
 
@@ -42,6 +55,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
+      object-fit: cover;
     }
 
     .header span {
@@ -50,80 +64,124 @@
 
     @media (min-width: 501px) {
       .header {
-        background: rgba(255,255,255,0.6);
-        padding: 6px 10px;
+        background-color: rgba(255, 255, 255, 0.7);
+        padding: 10px;
+        width: 60px;
+        height: auto;
+        border-radius: 50px;
       }
-      .header:hover span {
+
+      .header:hover {
+        width: 210px;
+      }
+
+      .header span {
         display: inline;
-        margin-right: 10px;
-        color: #000;
+        opacity: 0;
+        white-space: nowrap;
+        direction: ltr;
         font-weight: bold;
+        font-size: 16px;
+        color: #333;
+        transition: opacity 0.3s ease;
+        margin-right: 10px;
+      }
+
+      .header:hover span {
+        opacity: 1;
       }
     }
 
     .card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 30px 20px;
-      width: 100%;
-      max-width: 400px;
+      background-color: var(--card-bg);
+      backdrop-filter: var(--blur);
+      padding: 35px 25px;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
       text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      width: 90%;
+      max-width: 420px;
+      overflow: visible;
+      animation: fadeInCard 1s ease;
     }
 
-    h1 {
+    @keyframes fadeInCard {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .card h1 {
       font-size: 24px;
       margin-bottom: 10px;
       color: #222;
     }
 
-    p {
-      font-size: 15px;
+    .card p {
+      font-size: 16px;
       color: #555;
       margin-bottom: 25px;
     }
 
     .download-btn {
       background-color: var(--main-color);
-      color: #fff;
+      color: white;
       border: none;
-      border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 12px;
+      padding: 14px 20px;
       font-size: 16px;
-      width: 100%;
+      border-radius: 12px;
       cursor: pointer;
-      transition: background 0.3s ease;
+      margin: 8px 0;
+      transition: all 0.3s ease;
+      width: 100%;
     }
 
     .download-btn:hover {
       background-color: var(--hover-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     .section {
-      display: none;
-      margin-top: 15px;
-      text-align: right;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transform: translateY(-20px);
+      transition: all 0.7s ease;
     }
 
     .section.show {
-      display: block;
+      opacity: 1;
+      max-height: 500px;
+      transform: translateY(0);
+      margin-top: 20px;
     }
 
-    label {
+    .checkboxes {
+      text-align: right;
+      margin-bottom: 15px;
+    }
+
+    .checkboxes label {
       display: block;
       margin-bottom: 10px;
       font-size: 15px;
     }
 
-    input[type="checkbox"] {
-      margin-left: 8px;
+    @media (max-width: 500px) {
+      .card {
+        padding: 25px 18px;
+      }
+
+      .download-btn {
+        padding: 12px 16px;
+        font-size: 15px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- اللوجو -->
+  <!-- Logo + اسم -->
   <div class="header">
     <img src="My logo.png" alt="Al-Hussien">
     <span>&lt;/Al-Hussien&gt; 👨‍💻</span>
@@ -134,44 +192,47 @@
     <h1>تحميل التطبيقات</h1>
     <p>اختر الطريقة المناسبة للتحميل:</p>
 
-    <button class="download-btn" onclick="downloadFile('https://store-eu-par-3.gofile.io/download/web/e0ef29e9-3cf4-4011-b4d4-150b6e7aaecb/Work%20Apps.zip')">
+    <button class="download-btn" onclick="forceDownload('https://store-eu-par-3.gofile.io/download/web/e0ef29e9-3cf4-4011-b4d4-150b6e7aaecb/Work%20Apps.zip')">
       تحميل كل التطبيقات
     </button>
 
     <button class="download-btn" onclick="toggleSection()">تحميل تطبيق معين</button>
 
-    <div class="section" id="appSection">
-      <label><input type="checkbox" value="https://cold3.gofile.io/download/web/ad077ba4-547f-48cb-8c86-4f5f7839b022/Email%20Generator.apk"> Email Generator</label>
-      <label><input type="checkbox" value="https://cold3.gofile.io/download/web/9ed87aff-e231-4efd-ba25-02bdac4544ca/Fast%20Copy.apk"> Fast Copy</label>
-      <label><input type="checkbox" value="https://cold-eu-agl-1.gofile.io/download/web/cf1aca7f-258f-4d15-b05b-dddcfd030f7c/MultiSpace.apk"> MultiSpace</label>
-      <label><input type="checkbox" value="https://cold5.gofile.io/download/web/b0a370b7-e03d-414e-a820-77eca5a49881/Dingtone.apk"> Dingtone</label>
-      <label><input type="checkbox" value="https://store-eu-par-1.gofile.io/download/web/8870a1e7-0e01-45f8-b75f-5e1f79486052/Psiphon%20Pro.apk"> Psiphon Pro</label>
+    <div id="appSection" class="section">
+      <div class="checkboxes">
+        <label><input type="checkbox" value="https://cold3.gofile.io/download/web/ad077ba4-547f-48cb-8c86-4f5f7839b022/Email%20Generator.apk"> Email Generator</label>
+        <label><input type="checkbox" value="https://cold3.gofile.io/download/web/9ed87aff-e231-4efd-ba25-02bdac4544ca/Fast%20Copy.apk"> Fast Copy</label>
+        <label><input type="checkbox" value="https://cold-eu-agl-1.gofile.io/download/web/cf1aca7f-258f-4d15-b05b-dddcfd030f7c/MultiSpace.apk"> MultiSpace</label>
+        <label><input type="checkbox" value="https://cold5.gofile.io/download/web/b0a370b7-e03d-414e-a820-77eca5a49881/Dingtone.apk"> Dingtone</label>
+        <label><input type="checkbox" value="https://store-eu-par-1.gofile.io/download/web/8870a1e7-0e01-45f8-b75f-5e1f79486052/Psiphon%20Pro.apk"> Psiphon Pro</label>
+      </div>
       <button class="download-btn" onclick="downloadSelected()">تأكيد وتحميل المحدد</button>
     </div>
   </div>
 
   <script>
     function toggleSection() {
-      const section = document.getElementById('appSection');
-      section.classList.toggle('show');
+      document.getElementById('appSection').classList.toggle('show');
     }
 
-    function downloadFile(url) {
+    function forceDownload(url) {
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', '');
+      link.download = '';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     }
 
     function downloadSelected() {
-      const selected = document.querySelectorAll('.section input[type="checkbox"]:checked');
-      if (selected.length === 0) {
-        alert('يرجى اختيار تطبيق واحد على الأقل.');
+      const checkboxes = document.querySelectorAll('.checkboxes input[type="checkbox"]:checked');
+      if (checkboxes.length === 0) {
+        alert("يرجى اختيار تطبيق واحد على الأقل.");
         return;
       }
-      selected.forEach(el => downloadFile(el.value));
+      checkboxes.forEach(cb => {
+        forceDownload(cb.value);
+      });
     }
   </script>
 
