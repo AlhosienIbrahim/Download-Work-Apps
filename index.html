@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>Download Work Apps</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --main-color: #28a745;
+      --hover-color: #218838;
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --blur: blur(12px);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      animation: fadeInBody 1s ease;
+    }
+
+    @keyframes fadeInBody {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 10px 20px;
+      border-radius: 50px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      backdrop-filter: blur(5px);
+      animation: fadeIn 1.2s ease;
+      z-index: 10;
+    }
+
+    .header img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+
+    .header span {
+      font-weight: bold;
+      font-size: 16px;
+      color: #333;
+      direction: ltr;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      backdrop-filter: var(--blur);
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      max-height: 85vh;
+      overflow-y: auto;
+      animation: fadeInCard 1s ease;
+      position: relative;
+    }
+
+    @keyframes fadeInCard {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .card h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #222;
+    }
+
+    .card p {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 25px;
+    }
+
+    .download-btn,
+    a.download-btn {
+      background-color: var(--main-color);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      font-size: 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      margin: 8px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .download-btn:hover,
+    a.download-btn:hover {
+      background-color: var(--hover-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .section {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transform: translateY(-20px);
+      transition: all 0.7s ease;
+    }
+
+    .section.show {
+      opacity: 1;
+      max-height: 500px;
+      transform: translateY(0);
+      margin-top: 20px;
+      animation: fadeInSection 0.8s ease;
+    }
+
+    @keyframes fadeInSection {
+      from { opacity: 0; transform: translateY(-15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .checkboxes {
+      text-align: right;
+      margin-bottom: 15px;
+      animation: fadeIn 0.8s ease;
+    }
+
+    .checkboxes label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 15px;
+    }
+
+    @media (max-width: 500px) {
+      .card {
+        padding: 30px 20px;
+      }
+
+      .download-btn,
+      a.download-btn {
+        width: 100%;
+        padding: 12px 18px;
+        font-size: 15px;
+      }
+
+      .header {
+        left: 10px;
+        top: 10px;
+        padding: 8px 16px;
+      }
+
+      .header span {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- لوجو -->
+  <div class="header">
+    <img src="My logo.png" alt="Al-Hussien">
+    <span>&lt;/Al-Hussien&gt; 👨🏻‍💻</span>
+  </div>
+
+  <!-- المحتوى -->
+  <div class="card">
+    <h1>تحميل التطبيقات</h1>
+    <p>اختر الطريقة المناسبة للتحميل:</p>
+
+    <!-- زر تحميل الكل -->
+    <a class="download-btn" href="https://store-eu-par-3.gofile.io/download/web/e0ef29e9-3cf4-4011-b4d4-150b6e7aaecb/Work%20Apps.zip" download>
+      تحميل كل التطبيقات
+    </a>
+
+    <!-- زر إظهار التطبيقات الفردية -->
+    <button class="download-btn" onclick="toggleSection()">تحميل تطبيق معين</button>
+
+    <!-- قائمة التطبيقات الفردية -->
+    <div id="appSection" class="section">
+      <div class="checkboxes">
+        <label><input type="checkbox" value="https://cold3.gofile.io/download/web/ad077ba4-547f-48cb-8c86-4f5f7839b022/Email%20Generator.apk"> Email Generator</label>
+        <label><input type="checkbox" value="https://cold3.gofile.io/download/web/9ed87aff-e231-4efd-ba25-02bdac4544ca/Fast%20Copy.apk"> Fast Copy</label>
+        <label><input type="checkbox" value="https://cold-eu-agl-1.gofile.io/download/web/cf1aca7f-258f-4d15-b05b-dddcfd030f7c/MultiSpace.apk"> MultiSpace</label>
+        <label><input type="checkbox" value="https://cold5.gofile.io/download/web/b0a370b7-e03d-414e-a820-77eca5a49881/Dingtone.apk"> Dingtone</label>
+        <label><input type="checkbox" value="https://store-eu-par-1.gofile.io/download/web/8870a1e7-0e01-45f8-b75f-5e1f79486052/Psiphon%20Pro.apk"> Psiphon Pro</label>
+      </div>
+      <button class="download-btn" onclick="downloadSelected()">تأكيد وتحميل المحدد</button>
+    </div>
+  </div>
+
+  <script>
+    function toggleSection() {
+      const section = document.getElementById('appSection');
+      section.classList.toggle('show');
+    }
+
+    function downloadSelected() {
+      const checkboxes = document.querySelectorAll('.checkboxes input[type="checkbox"]:checked');
+      if (checkboxes.length === 0) {
+        alert("يرجى اختيار تطبيق واحد على الأقل.");
+        return;
+      }
+      checkboxes.forEach(cb => {
+        window.open(cb.value, '_blank');
+      });
+    }
+  </script>
+
+</body>
+</html>
