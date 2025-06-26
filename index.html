@@ -383,6 +383,28 @@
         });
         return;
       }
+
+      Swal.fire({
+        title: 'هل أنت متأكد؟',
+        text: 'سيتم بدء تحميل التطبيقات التي قمت بتحديدها.',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'نعم، ابدأ التحميل',
+        cancelButtonText: 'إلغاء'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          checkboxes.forEach(cb => {
+            const link = document.createElement('a');
+            link.href = cb.value;
+            const fileName = decodeURIComponent(cb.value.split('/').pop().split('?')[0]);
+            link.setAttribute('download', fileName);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          });
+        }
+      });
+
       checkboxes.forEach(cb => {
         const link = document.createElement('a');
         link.href = cb.value;
