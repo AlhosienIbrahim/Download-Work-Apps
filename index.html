@@ -406,28 +406,25 @@
 function downloadAll() {
   const fileUrl = 'https://store-eu-par-3.gofile.io/download/web/e0ef29e9-3cf4-4011-b4d4-150b6e7aaecb/Work%20Apps.zip';
 
-  const isFirstTime = !localStorage.getItem('downloadNoticeShown');
-
   Swal.fire({
-    title: isFirstTime ? 'تنبيه بخصوص التحميل' : 'هل تود تحميل جميع التطبيقات؟',
-    text: isFirstTime
-      ? 'قد يتم فتح نافذة خارجية أو يحدث تأخير بسيط من المتصفح في أول مرة فقط. بعد ذلك، سيتم التحميل مباشرة.'
-      : 'سيتم تحميل جميع التطبيقات في ملف مضغوط مباشرة.',
+    title: 'تنبيه بخصوص التحميل',
+    text: 'قد يتم فتح نافذة خارجية أو يحدث تأخير بسيط من المتصفح. بعد ذلك، سيتم التحميل مباشرة.',
     icon: 'info',
-    confirmButtonText: isFirstTime ? 'فهمت، ابدأ التحميل' : 'تحميل الآن',
-    allowOutsideClick: false
-  }).then(() => {
-    // خزّن أن المستخدم شاف التنبيه
-    localStorage.setItem('downloadNoticeShown', 'true');
-
-    const link = document.createElement('a');
-    link.href = fileUrl;
-    link.setAttribute('download', '');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    showCancelButton: true,
+    confirmButtonText: 'فهمت، ابدأ التحميل',
+    cancelButtonText: 'إلغاء'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const link = document.createElement('a');
+      link.href = fileUrl;
+      link.setAttribute('download', '');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   });
 }
+
 
 
   </script>
