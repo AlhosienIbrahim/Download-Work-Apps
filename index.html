@@ -259,6 +259,21 @@
         height: 28px;
       }
     }
+    
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      overflow-x: hidden;
+    }
+
+    .download-btn,
+    a.download-btn {
+      width: calc(100% - 20px);
+      max-width: 300px;
+      margin: 10px auto;
+    }
     </style>
 </head>
 <body>
