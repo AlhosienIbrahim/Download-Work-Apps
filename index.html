@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -235,7 +236,8 @@
       checkboxes.forEach(cb => {
         const link = document.createElement('a');
         link.href = cb.value;
-        link.download = '';
+        const fileName = decodeURIComponent(cb.value.split('/').pop().split('?')[0]);
+        link.setAttribute('download', fileName);
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
