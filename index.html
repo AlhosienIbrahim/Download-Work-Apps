@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Download Work Apps</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <style>
     :root {
       --main-color: #28a745;
@@ -12,17 +12,14 @@
       --blur: blur(12px);
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html, body {
+    body {
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(to right, #74ebd5, #ACB6E5);
-      height: 100%;
-      overflow-x: hidden;
+      min-height: 100vh;
+      height: auto;
+      overflow-y: auto;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -39,23 +36,21 @@
       position: absolute;
       top: 20px;
       left: 20px;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-      width: 40px;
-      height: 40px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-      background: none;
-      padding: 0;
+      overflow: hidden;
+      z-index: 100;
+      cursor: pointer;
       transition: all 0.3s ease;
     }
 
     .header img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
+      border-radius: 50%;
+      flex-shrink: 0;
     }
 
     .header span {
@@ -64,27 +59,29 @@
 
     @media (min-width: 501px) {
       .header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
         background-color: rgba(255, 255, 255, 0.7);
         padding: 10px;
-        width: 60px;
+        width: 50px;
         height: auto;
         border-radius: 50px;
-      }
-
-      .header:hover {
-        width: 210px;
       }
 
       .header span {
         display: inline;
         opacity: 0;
+        transition: opacity 0.3s ease;
         white-space: nowrap;
         direction: ltr;
         font-weight: bold;
         font-size: 16px;
         color: #333;
-        transition: opacity 0.3s ease;
-        margin-right: 10px;
+      }
+
+      .header:hover {
+        width: 200px;
       }
 
       .header:hover span {
@@ -95,14 +92,14 @@
     .card {
       background-color: var(--card-bg);
       backdrop-filter: var(--blur);
-      padding: 35px 25px;
+      padding: 40px 30px;
       border-radius: 20px;
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
       text-align: center;
+      max-width: 500px;
       width: 90%;
-      max-width: 420px;
-      overflow: visible;
       animation: fadeInCard 1s ease;
+      position: relative;
     }
 
     @keyframes fadeInCard {
@@ -111,7 +108,7 @@
     }
 
     .card h1 {
-      font-size: 24px;
+      font-size: 28px;
       margin-bottom: 10px;
       color: #222;
     }
@@ -122,20 +119,23 @@
       margin-bottom: 25px;
     }
 
-    .download-btn {
+    .download-btn,
+    a.download-btn {
       background-color: var(--main-color);
       color: white;
       border: none;
-      padding: 14px 20px;
+      padding: 14px 28px;
       font-size: 16px;
       border-radius: 12px;
       cursor: pointer;
-      margin: 8px 0;
+      margin: 8px;
       transition: all 0.3s ease;
-      width: 100%;
+      text-decoration: none;
+      display: inline-block;
     }
 
-    .download-btn:hover {
+    .download-btn:hover,
+    a.download-btn:hover {
       background-color: var(--hover-color);
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -154,11 +154,18 @@
       max-height: 500px;
       transform: translateY(0);
       margin-top: 20px;
+      animation: fadeInSection 0.8s ease;
+    }
+
+    @keyframes fadeInSection {
+      from { opacity: 0; transform: translateY(-15px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .checkboxes {
       text-align: right;
       margin-bottom: 15px;
+      animation: fadeIn 0.8s ease;
     }
 
     .checkboxes label {
@@ -168,12 +175,18 @@
     }
 
     @media (max-width: 500px) {
-      .card {
-        padding: 25px 18px;
+      .header span {
+        display: none !important;
       }
 
-      .download-btn {
-        padding: 12px 16px;
+      .card {
+        padding: 30px 20px;
+      }
+
+      .download-btn,
+      a.download-btn {
+        width: 100%;
+        padding: 12px 18px;
         font-size: 15px;
       }
     }
@@ -181,20 +194,17 @@
 </head>
 <body>
 
-  <!-- Logo + اسم -->
   <div class="header">
     <img src="My logo.png" alt="Al-Hussien">
-    <span>&lt;/Al-Hussien&gt; 👨‍💻</span>
   </div>
 
-  <!-- الكارت -->
   <div class="card">
     <h1>تحميل التطبيقات</h1>
     <p>اختر الطريقة المناسبة للتحميل:</p>
 
-    <button class="download-btn" onclick="forceDownload('https://store-eu-par-3.gofile.io/download/web/e0ef29e9-3cf4-4011-b4d4-150b6e7aaecb/Work%20Apps.zip')">
+    <a class="download-btn" href="https://store-eu-par-3.gofile.io/download/web/e0ef29e9-3cf4-4011-b4d4-150b6e7aaecb/Work%20Apps.zip" download>
       تحميل كل التطبيقات
-    </button>
+    </a>
 
     <button class="download-btn" onclick="toggleSection()">تحميل تطبيق معين</button>
 
@@ -212,16 +222,8 @@
 
   <script>
     function toggleSection() {
-      document.getElementById('appSection').classList.toggle('show');
-    }
-
-    function forceDownload(url) {
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = '';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      const section = document.getElementById('appSection');
+      section.classList.toggle('show');
     }
 
     function downloadSelected() {
@@ -231,7 +233,12 @@
         return;
       }
       checkboxes.forEach(cb => {
-        forceDownload(cb.value);
+        const link = document.createElement('a');
+        link.href = cb.value;
+        link.download = '';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       });
     }
   </script>
