@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>تحميل التطبيقات</title>
+  <title>Download Work Apps</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     :root {
@@ -86,6 +86,12 @@
 
       .header:hover span {
         opacity: 1;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .header span {
+        display: none !important;
       }
     }
 
@@ -192,13 +198,11 @@
 </head>
 <body>
 
-  <!-- اللوجو -->
   <div class="header">
     <img src="My logo.png" alt="Al-Hussien">
-    <span>&lt;/Al-Hussien&gt; 👨🏻‍💻</span>
+    <span>&lt;/Al-Hussien&gt; 👨‍💻</span>
   </div>
 
-  <!-- المحتوى -->
   <div class="card">
     <h1>تحميل التطبيقات</h1>
     <p>اختر الطريقة المناسبة للتحميل:</p>
@@ -233,16 +237,14 @@
         alert("يرجى اختيار تطبيق واحد على الأقل.");
         return;
       }
-
       checkboxes.forEach(cb => {
-        const url = cb.value;
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", "");
-        link.style.display = "none";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        const a = document.createElement('a');
+        a.href = cb.value;
+        a.download = '';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
       });
     }
   </script>
