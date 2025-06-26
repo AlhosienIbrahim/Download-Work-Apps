@@ -404,17 +404,8 @@
           });
         }
       });
-
-      checkboxes.forEach(cb => {
-        const link = document.createElement('a');
-        link.href = cb.value;
-        const fileName = decodeURIComponent(cb.value.split('/').pop().split('?')[0]);
-        link.setAttribute('download', fileName);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      });
     }
+
   </script>
   <script src="sweetalert2.all.min.js"></script>
 </body>
