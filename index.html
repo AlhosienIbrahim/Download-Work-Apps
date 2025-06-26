@@ -336,11 +336,8 @@
     <h1>تحميل التطبيقات</h1>
     <p>اختر الطريقة المناسبة للتحميل:</p>
 
-    <a class="download-btn"
-      href="https://store-eu-par-3.gofile.io/download/web/e0ef29e9-3cf4-4011-b4d4-150b6e7aaecb/Work%20Apps.zip"
-      download>
-      تحميل كل التطبيقات
-    </a>
+    <button class="download-btn" onclick="downloadAll()">تحميل كل التطبيقات</button>
+
 
     <button class="download-btn" onclick="toggleSection()">تحميل تطبيق معين</button>
 
@@ -402,6 +399,26 @@
             link.click();
             document.body.removeChild(link);
           });
+        }
+      });
+    }
+    
+    function downloadAll() {
+      Swal.fire({
+        title: 'هل تريد تحميل كل التطبيقات؟',
+        text: 'قد يتم فتح نافذة أو يتم توجيهك قبل بدء التحميل، هذا طبيعي.',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'نعم، ابدأ التحميل',
+        cancelButtonText: 'إلغاء'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const link = document.createElement('a');
+          link.href = 'https://store-eu-par-3.gofile.io/download/web/e0ef29e9-3cf4-4011-b4d4-150b6e7aaecb/Work%20Apps.zip';
+          link.setAttribute('download', '');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
         }
       });
     }
