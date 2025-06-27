@@ -1,417 +1,526 @@
-
 <!DOCTYPE html>
 
 <html dir="rtl" lang="ar">
+
 <head>
-<meta charset="utf-8"/>
-<title>تحميل التطبيقات</title>
-<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
-<style>
-:root {
-  --main-color: #28a745;
-  --hover-color: #218838;
-  --card-bg: rgba(255, 255, 255, 0.85);
-  --text-color: #222;
-  --bg-gradient: linear-gradient(to right, #74ebd5, #ACB6E5);
-}
-
-:root[data-theme="dark"] {
-    --card-bg: rgba(30, 30, 30, 0.9);
-    --main-color: #4cd964;
-    --hover-color: #34c759;
-    --text-color: #f1f1f1;
-    --bg-gradient: linear-gradient(to right, #1e1e1e, #3a3a3a);
-  }
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: var(--bg-gradient);
-  min-height: 100vh;
-  overflow-y: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  animation: fadeInBody 1s ease;
-  color: var(--text-color);
-}
-
-@keyframes fadeInBody {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeInCard {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes fadeInSection {
-  from { opacity: 0; transform: translateY(-15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeInCheck {
-  from { transform: scale(0); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  cursor: pointer;
-  font-size: 22px;
-  z-index: 1000;
-  background: var(--card-bg);
-  border-radius: 50%;
-  padding: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-
-.header {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  overflow: hidden;
-  z-index: 100;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.header img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border: none;
-  appearance: none;
-}
-
-
-.card {
-  background-color: var(--card-bg);
-  backdrop-filter: blur(12px);
-  border-radius: 20px;
-  padding: 30px 20px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-  max-width: 500px;
-  width: 100%;
-  text-align: center;
-  animation: fadeInCard 1s ease;
-}
-
-.section {
-  opacity: 0;
-  max-height: 0;
-  overflow-y: auto;
-  transform: translateY(-20px);
-  transition: opacity 0.5s ease, max-height 0.5s ease, transform 0.5s ease;
-}
-
-.section.show {
-  opacity: 1;
-  max-height: 70vh;
-  transform: translateY(0);
-  overflow-y: auto;
-  margin-top: 20px;
-  animation: fadeInSection 0.8s ease;
-}
-
-.app-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  background-color: transparent;
-  border-radius: 12px;
-  padding: 10px;
-  cursor: pointer;
-  width: 100%;
-  max-width: 400px;
-  transition: background 0.3s ease;
-  position: relative;
-}
-
-.app-item:hover {
-  background-color: rgba(0,0,0,0.05);
-}
-
-.app-item.selected {
-  background-color: rgba(40, 167, 69, 0.15);
-}
-
-.app-item .checkmark {
-  display: none;
-}
-
-.app-item.selected .checkmark {
-  display: inline-block;
-  font-size: 18px;
-  color: var(--main-color);
-  animation: fadeInCheck 0.4s ease;
-}
-
-.app-item img {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-}
-
-.name {
-  flex: 1;
-  text-align: center;
-}
-
-.size {
-  font-size: 14px;
-  color: #666;
-}
-
-.app-item.selected .size {
-  display: none;
-}
-
-.download-btn {
-  background-color: var(--main-color);
-  color: white;
-  border: none;
-  padding: 14px 20px;
-  font-size: 16px;
-  border-radius: 12px;
-  cursor: pointer;
-  margin-top: 20px;
-  width: 100%;
-  max-width: 300px;
-}
-
-.file-size {
-  font-size: 13px;
-  color: #888;
-  margin-top: 6px;
-}
-
-@media (max-width: 500px) {
-  .card {
-    padding: 20px 10px;
-  }
-
-  .app-item {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .app-item img {
-    margin-bottom: 8px;
-  }
-}
-
-#appSection {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-@media (max-width: 350px) {
-  .card {
-    padding: 16px 8px;
-  }
-
-  .download-btn {
-    padding: 12px 14px;
-    font-size: 14px;
-  }
-
-  .file-size,
-  .size {
-    font-size: 14px;
-  }
-}
-
-.app-list {
-  max-height: 200px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding-right: 5px;
-}
-
-@media (min-width: 501px) {
-  .app-list {
-    max-height: 300px;
-  }
-}
-
-body {
-  overflow-x: hidden;
-}
-
-@media (max-width: 500px) {
-  .card {
-    margin: 20px 10px;
-    border-radius: 16px;
-  }
-}
-
-.card {
-  box-sizing: border-box;
-  padding: 24px 16px;
-  margin: 20px;
-  max-width: 500px;
-  width: calc(100% - 40px);
-}
-
-.fixed-confirm {
-  display: none;
-}
-
-.section.show + .fixed-confirm {
-  display: block;
-}
-
-:root[data-theme="dark"] {
-  --main-color: #3399ff; /* أزرق */
-  --hover-color: #2b8ae2;
-}
-
-/* أنيميشن انتقال سلس عند تغيير الثيم */
-html {
-  transition: background-color 0.6s ease, color 0.6s ease;
-}
-
-body {
-  transition: background 0.6s ease, color 0.6s ease;
-}
-
-.card, .download-btn, .theme-toggle {
-  transition: background-color 0.6s ease, color 0.6s ease, box-shadow 0.6s ease;
-}
-
-html, body {
-  overflow: hidden !important;
-  height: 100vh;
-}
-
-body {
-  justify-content: start;
-  padding-top: 60px;
-  padding-bottom: 60px;
-}
-</style>
-</head>
-<body>
-<div class="theme-toggle" onclick="toggleTheme()" title="تبديل الوضع">🌓</div>
-<div class="header">
-<img alt="Logo" src="My logo.png"/>
-</div>
-<div class="card">
-<h1>تحميل التطبيقات</h1>
-<p>اختر الطريقة المناسبة للتحميل:</p>
-<button class="download-btn" onclick="downloadAll()">تحميل كل التطبيقات</button>
-<div class="file-size">الحجم الكلي: 77.5MB</div>
-<button class="download-btn" onclick="toggleSection()">تحميل تطبيق معين</button>
-<div class="section" id="appSection"><div class="app-list"><div class="app-item" data-url="https://cold3.gofile.io/download/web/ad077ba4-547f-48cb-8c86-4f5f7839b022/Email%20Generator.apk" onclick="toggleSelect(this)">
-<img src="Apps Images/Email Generator.png"/> <!-- صورة التطبيق Email Generator -->
-<span class="name">Email Generator</span>
-<span class="size">4.4MB</span> <!-- حجم التطبيق Email Generator --><span class="checkmark">✔</span>
-</div><div class="app-item" data-url="https://cold3.gofile.io/download/web/9ed87aff-e231-4efd-ba25-02bdac4544ca/Fast%20Copy.apk" onclick="toggleSelect(this)">
-<img src="Apps Images/Fast Copy.png"/> <!-- صورة التطبيق Fast Copy -->
-<span class="name">Fast Copy</span>
-<span class="size">16.9MB</span> <!-- حجم التطبيق Fast Copy --><span class="checkmark">✔</span>
-</div><div class="app-item" data-url="https://cold-eu-agl-1.gofile.io/download/web/cf1aca7f-258f-4d15-b05b-dddcfd030f7c/MultiSpace.apk" onclick="toggleSelect(this)">
-<img src="Apps Images/Multispace.png"/> <!-- صورة التطبيق MultiSpace -->
-<span class="name">MultiSpace</span>
-<span class="size">10.7MB</span> <!-- حجم التطبيق MultiSpace --><span class="checkmark">✔</span>
-</div><div class="app-item" data-url="https://cold5.gofile.io/download/web/b0a370b7-e03d-414e-a820-77eca5a49881/Dingtone.apk" onclick="toggleSelect(this)">
-<img src="Apps Images/Dingtone.jpeg"/> <!-- صورة التطبيق Dingtone -->
-<span class="name">Dingtone</span>
-<span class="size">40.9MB</span> <!-- حجم التطبيق Dingtone --><span class="checkmark">✔</span>
-</div><div class="app-item" data-url="https://store-eu-par-1.gofile.io/download/web/8870a1e7-0e01-45f8-b75f-5e1f79486052/Psiphon%20Pro.apk" onclick="toggleSelect(this)">
-<img src="Apps Images/Psiphon.jpeg"/> <!-- صورة التطبيق Psiphon Pro -->
-<span class="name">Psiphon Pro</span>
-<span class="size">25.2MB</span> <!-- حجم التطبيق Psiphon Pro --><span class="checkmark">✔</span>
-</div></div></div><button class="download-btn fixed-confirm" onclick="downloadSelected()">تأكيد وتحميل المحدد</button>
-</div>
-<script src="sweetalert2.all.min.js"></script>
-<script>
-  function toggleTheme() {
-    const root = document.documentElement;
-    const newTheme = root.dataset.theme === "dark" ? "" : "dark";
-    root.dataset.theme = newTheme;
-    localStorage.setItem("theme", newTheme);
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) document.documentElement.dataset.theme = savedTheme;
-  });
-
-  function toggleSection() {
-    const section = document.getElementById("appSection");
-    section.classList.toggle("show");
-  }
-
-  function toggleSelect(element) {
-    element.classList.toggle("selected");
-  }
-
-  function downloadSelected() {
-    const selectedItems = document.querySelectorAll('.app-item.selected');
-    if (selectedItems.length === 0) {
-      Swal.fire("تنبيه", "يرجى اختيار تطبيق واحد على الأقل.", "warning");
-      return;
+  <meta charset="utf-8" />
+  <title>تحميل التطبيقات</title>
+  <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport" />
+  <style>
+    :root {
+      --main-color: #28a745;
+      --hover-color: #218838;
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --text-color: #222;
+      --bg-gradient: linear-gradient(to right, #74ebd5, #ACB6E5);
     }
 
-    Swal.fire({
-      title: "هل أنت متأكد؟",
-      text: "سيتم تحميل التطبيقات المحددة.",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonText: "نعم، حمل الآن",
-      cancelButtonText: "إلغاء"
-    }).then(result => {
-      if (result.isConfirmed) {
-        selectedItems.forEach(item => {
+    :root[data-theme="dark"] {
+      --card-bg: rgba(30, 30, 30, 0.9);
+      --main-color: #4cd964;
+      --hover-color: #34c759;
+      --text-color: #f1f1f1;
+      --bg-gradient: linear-gradient(to right, #1e1e1e, #3a3a3a);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      overflow-y: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      animation: fadeInBody 1s ease;
+      color: var(--text-color);
+    }
+
+    @keyframes fadeInBody {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInCard {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes fadeInSection {
+      from {
+        opacity: 0;
+        transform: translateY(-15px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInCheck {
+      from {
+        transform: scale(0);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+      font-size: 22px;
+      z-index: 1000;
+      background: var(--card-bg);
+      border-radius: 50%;
+      padding: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+
+    .header {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      z-index: 100;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: none;
+      appearance: none;
+    }
+
+
+    .card {
+      background-color: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 30px 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      animation: fadeInCard 1s ease;
+    }
+
+    .section {
+      opacity: 0;
+      max-height: 0;
+      overflow-y: auto;
+      transform: translateY(-20px);
+      transition: opacity 0.5s ease, max-height 0.5s ease, transform 0.5s ease;
+    }
+
+    .section.show {
+      opacity: 1;
+      max-height: 70vh;
+      transform: translateY(0);
+      overflow-y: auto;
+      margin-top: 20px;
+      animation: fadeInSection 0.8s ease;
+    }
+
+    .app-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      background-color: transparent;
+      border-radius: 12px;
+      padding: 10px;
+      cursor: pointer;
+      width: 100%;
+      max-width: 400px;
+      transition: background 0.3s ease;
+      position: relative;
+    }
+
+    .app-item:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .app-item.selected {
+      background-color: rgba(40, 167, 69, 0.15);
+    }
+
+    .app-item .checkmark {
+      display: none;
+    }
+
+    .app-item.selected .checkmark {
+      display: inline-block;
+      font-size: 18px;
+      color: var(--main-color);
+      animation: fadeInCheck 0.4s ease;
+    }
+
+    .app-item img {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+    }
+
+    .name {
+      flex: 1;
+      text-align: center;
+    }
+
+    .size {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .app-item.selected .size {
+      display: none;
+    }
+
+    .download-btn {
+      background-color: var(--main-color);
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      font-size: 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 20px;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .file-size {
+      font-size: 13px;
+      color: #888;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 500px) {
+      .card {
+        padding: 20px 10px;
+      }
+
+      .app-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .app-item img {
+        margin-bottom: 8px;
+      }
+    }
+
+    #appSection {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    @media (max-width: 350px) {
+      .card {
+        padding: 16px 8px;
+      }
+
+      .download-btn {
+        padding: 12px 14px;
+        font-size: 14px;
+      }
+
+      .file-size,
+      .size {
+        font-size: 14px;
+      }
+    }
+
+    .app-list {
+      max-height: 200px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 5px;
+    }
+
+    @media (min-width: 501px) {
+      .app-list {
+        max-height: 300px;
+      }
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    @media (max-width: 500px) {
+      .card {
+        margin: 20px 10px;
+        border-radius: 16px;
+      }
+    }
+
+    .card {
+      box-sizing: border-box;
+      padding: 24px 16px;
+      margin: 20px;
+      max-width: 500px;
+      width: calc(100% - 40px);
+    }
+
+    .fixed-confirm {
+      display: none;
+    }
+
+    .section.show+.fixed-confirm {
+      display: block;
+    }
+
+    :root[data-theme="dark"] {
+      --main-color: #3399ff;
+      /* أزرق */
+      --hover-color: #2b8ae2;
+    }
+
+    /* أنيميشن انتقال سلس عند تغيير الثيم */
+    html {
+      transition: background-color 0.6s ease, color 0.6s ease;
+    }
+
+    body {
+      transition: background 0.6s ease, color 0.6s ease;
+    }
+
+    .card,
+    .download-btn,
+    .theme-toggle {
+      transition: background-color 0.6s ease, color 0.6s ease, box-shadow 0.6s ease;
+    }
+
+    html,
+    body {
+      overflow: hidden !important;
+      height: 100vh;
+    }
+
+    body {
+      justify-content: start;
+      padding-top: 60px;
+      padding-bottom: 60px;
+    }
+
+    .app-list {
+      max-height: 90px;
+      /* تقليل لعرض تطبيق واحد فقط */
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .section {
+      transition: none !important;
+    }
+
+    body.loaded .section {
+      transition: opacity 0.5s ease, height 0.5s ease, transform 0.5s ease;
+    }
+
+    @keyframes fadeInBody {
+      from {
+        opacity: 0;
+        /* إزالة التحريك الرأسي لتجنب صعود المحتوى */
+        transform: none;
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .section {
+      will-change: transform, opacity;
+    }
+
+    .section.show {
+      animation: fadeInSection 0.8s ease;
+    }
+
+    .section {
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      opacity: 0;
+      transform: translateY(-15px);
+      max-height: 0;
+      overflow: hidden;
+    }
+
+    .section.show {
+      opacity: 1;
+      transform: translateY(0);
+      max-height: 300px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="theme-toggle" onclick="toggleTheme()" title="تبديل الوضع">🌓</div>
+  <div class="header">
+    <img alt="Logo" src="My logo.png" />
+  </div>
+  <div class="card">
+    <h1>تحميل التطبيقات</h1>
+    <p>اختر الطريقة المناسبة للتحميل:</p>
+    <button class="download-btn" onclick="downloadAll()">تحميل كل التطبيقات</button>
+    <div class="file-size">الحجم الكلي: 77.5MB</div>
+    <button class="download-btn" onclick="toggleSection()">تحميل تطبيق معين</button>
+    <div class="section" id="appSection">
+      <div class="app-list">
+        <div class="app-item"
+          data-url="https://cold3.gofile.io/download/web/ad077ba4-547f-48cb-8c86-4f5f7839b022/Email%20Generator.apk"
+          onclick="toggleSelect(this)">
+          <img src="Apps Images/Email Generator.png" /> <!-- صورة التطبيق Email Generator -->
+          <span class="name">Email Generator</span>
+          <span class="size">4.4MB</span> <!-- حجم التطبيق Email Generator --><span class="checkmark">✔</span>
+        </div>
+        <div class="app-item"
+          data-url="https://cold3.gofile.io/download/web/9ed87aff-e231-4efd-ba25-02bdac4544ca/Fast%20Copy.apk"
+          onclick="toggleSelect(this)">
+          <img src="Apps Images/Fast Copy.png" /> <!-- صورة التطبيق Fast Copy -->
+          <span class="name">Fast Copy</span>
+          <span class="size">16.9MB</span> <!-- حجم التطبيق Fast Copy --><span class="checkmark">✔</span>
+        </div>
+        <div class="app-item"
+          data-url="https://cold-eu-agl-1.gofile.io/download/web/cf1aca7f-258f-4d15-b05b-dddcfd030f7c/MultiSpace.apk"
+          onclick="toggleSelect(this)">
+          <img src="Apps Images/Multispace.png" /> <!-- صورة التطبيق MultiSpace -->
+          <span class="name">MultiSpace</span>
+          <span class="size">10.7MB</span> <!-- حجم التطبيق MultiSpace --><span class="checkmark">✔</span>
+        </div>
+        <div class="app-item"
+          data-url="https://cold5.gofile.io/download/web/b0a370b7-e03d-414e-a820-77eca5a49881/Dingtone.apk"
+          onclick="toggleSelect(this)">
+          <img src="Apps Images/Dingtone.jpeg" /> <!-- صورة التطبيق Dingtone -->
+          <span class="name">Dingtone</span>
+          <span class="size">40.9MB</span> <!-- حجم التطبيق Dingtone --><span class="checkmark">✔</span>
+        </div>
+        <div class="app-item"
+          data-url="https://store-eu-par-1.gofile.io/download/web/8870a1e7-0e01-45f8-b75f-5e1f79486052/Psiphon%20Pro.apk"
+          onclick="toggleSelect(this)">
+          <img src="Apps Images/Psiphon.jpeg" /> <!-- صورة التطبيق Psiphon Pro -->
+          <span class="name">Psiphon Pro</span>
+          <span class="size">25.2MB</span> <!-- حجم التطبيق Psiphon Pro --><span class="checkmark">✔</span>
+        </div>
+      </div>
+    </div><button class="download-btn fixed-confirm" onclick="downloadSelected()">تأكيد وتحميل المحدد</button>
+  </div>
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      setTimeout(() => {
+        document.body.classList.add("loaded");
+      }, 100); // تأخير بسيط لضمان استقرار العرض
+    });
+  </script>
+  <script src="sweetalert2.all.min.js"></script>
+  <script>
+    function toggleTheme() {
+      const root = document.documentElement;
+      const newTheme = root.dataset.theme === "dark" ? "" : "dark";
+      root.dataset.theme = newTheme;
+      localStorage.setItem("theme", newTheme);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+    });
+
+    function toggleSection() {
+      const section = document.getElementById("appSection");
+      section.classList.toggle("show");
+    }
+
+    function toggleSelect(element) {
+      element.classList.toggle("selected");
+    }
+
+    function downloadSelected() {
+      const selectedItems = document.querySelectorAll('.app-item.selected');
+      if (selectedItems.length === 0) {
+        Swal.fire("تنبيه", "يرجى اختيار تطبيق واحد على الأقل.", "warning");
+        return;
+      }
+
+      Swal.fire({
+        title: "هل أنت متأكد؟",
+        text: "سيتم تحميل التطبيقات المحددة.",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "نعم، حمل الآن",
+        cancelButtonText: "إلغاء"
+      }).then(result => {
+        if (result.isConfirmed) {
+          selectedItems.forEach(item => {
+            const link = document.createElement("a");
+            link.href = item.dataset.url;
+            link.setAttribute("download", "");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          });
+        }
+      });
+    }
+
+    function downloadAll() {
+      Swal.fire({
+        title: "تحميل كل التطبيقات",
+        text: "سيتم تحميل ملف مضغوط يحتوي على جميع التطبيقات.",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonText: "حسنًا، ابدأ التحميل",
+        cancelButtonText: "إلغاء"
+      }).then(result => {
+        if (result.isConfirmed) {
           const link = document.createElement("a");
-          link.href = item.dataset.url;
+          link.href = "https://store-eu-par-3.gofile.io/download/web/e0ef29e9-3cf4-4011-b4d4-150b6e7aaecb/Work%20Apps.zip";
           link.setAttribute("download", "");
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
-        });
-      }
-    });
-  }
-
-  function downloadAll() {
-    Swal.fire({
-      title: "تحميل كل التطبيقات",
-      text: "سيتم تحميل ملف مضغوط يحتوي على جميع التطبيقات.",
-      icon: "info",
-      showCancelButton: true,
-      confirmButtonText: "حسنًا، ابدأ التحميل",
-      cancelButtonText: "إلغاء"
-    }).then(result => {
-      if (result.isConfirmed) {
-        const link = document.createElement("a");
-        link.href = "https://store-eu-par-3.gofile.io/download/web/e0ef29e9-3cf4-4011-b4d4-150b6e7aaecb/Work%20Apps.zip";
-        link.setAttribute("download", "");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-    });
-  }
-</script>
+        }
+      });
+    }
+  </script>
 </body>
+
 </html>
