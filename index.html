@@ -1,434 +1,388 @@
+
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
 
+<html dir="rtl" lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <title>Download Work Apps</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <style>
-    :root {
-      --main-color: #28a745;
-      --hover-color: #218838;
-      --card-bg: rgba(255, 255, 255, 0.85);
-      --blur: blur(12px);
-    }
+<meta charset="utf-8"/>
+<title>تحميل التطبيقات</title>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<style>
+:root {
+  --main-color: #28a745;
+  --hover-color: #218838;
+  --card-bg: rgba(255, 255, 255, 0.85);
+  --text-color: #222;
+  --bg-gradient: linear-gradient(to right, #74ebd5, #ACB6E5);
+}
 
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #74ebd5, #ACB6E5);
-      min-height: 100vh;
-      height: auto;
-      overflow-y: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      animation: fadeInBody 1s ease;
-    }
+:root[data-theme="dark"] {
+    --card-bg: rgba(30, 30, 30, 0.9);
+    --main-color: #4cd964;
+    --hover-color: #34c759;
+    --text-color: #f1f1f1;
+    --bg-gradient: linear-gradient(to right, #1e1e1e, #3a3a3a);
+  }
 
-    @keyframes fadeInBody {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  animation: fadeInBody 1s ease;
+  color: var(--text-color);
+}
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+@keyframes fadeInBody {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-    .header {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      overflow: hidden;
-      z-index: 100;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
+@keyframes fadeInCard {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
 
-    .header img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
+@keyframes fadeInSection {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-    .header span {
-      display: none;
-    }
+@keyframes fadeInCheck {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
 
-    @media (min-width: 501px) {
-      .header {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        background-color: rgba(255, 255, 255, 0.7);
-        padding: 10px;
-        width: 50px;
-        height: auto;
-        border-radius: 50px;
-      }
-
-      .header span {
-        display: inline;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        white-space: nowrap;
-        direction: ltr;
-        font-weight: bold;
-        font-size: 16px;
-        color: #333;
-      }
-
-      .header:hover {
-        width: 200px;
-      }
-
-      .header:hover span {
-        opacity: 1;
-      }
-    }
-
-    .card {
-      background-color: var(--card-bg);
-      backdrop-filter: var(--blur);
-      padding: 40px 30px;
-      border-radius: 20px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-      text-align: center;
-      max-width: 500px;
-      width: 90%;
-      animation: fadeInCard 1s ease;
-      position: relative;
-    }
-
-    @keyframes fadeInCard {
-      from {
-        opacity: 0;
-        transform: scale(0.95);
-      }
-
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    .card h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
-      color: #222;
-    }
-
-    .card p {
-      font-size: 16px;
-      color: #555;
-      margin-bottom: 25px;
-    }
-
-    .download-btn,
-    a.download-btn {
-      background-color: var(--main-color);
-      color: white;
-      border: none;
-      padding: 14px 28px;
-      font-size: 16px;
-      border-radius: 12px;
-      cursor: pointer;
-      margin: 8px;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .download-btn:hover,
-    a.download-btn:hover {
-      background-color: var(--hover-color);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .section {
-      opacity: 0;
-      max-height: 0;
-      overflow: hidden;
-      transform: translateY(-20px);
-      transition: all 0.7s ease;
-    }
-
-    .section.show {
-      opacity: 1;
-      max-height: 500px;
-      transform: translateY(0);
-      margin-top: 20px;
-      animation: fadeInSection 0.8s ease;
-    }
-
-    @keyframes fadeInSection {
-      from {
-        opacity: 0;
-        transform: translateY(-15px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .checkboxes {
-      text-align: right;
-      margin-bottom: 15px;
-      animation: fadeIn 0.8s ease;
-    }
-
-    .checkboxes label {
-      display: block;
-      margin-bottom: 10px;
-      font-size: 15px;
-    }
-
-    @media (max-width: 500px) {
-      .header span {
-        display: none !important;
-      }
-
-      .card {
-        padding: 30px 20px;
-      }
-
-      .download-btn,
-      a.download-btn {
-        width: 100%;
-        padding: 12px 18px;
-        font-size: 15px;
-      }
-    }
-
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      overflow-y: auto;
-      box-sizing: border-box;
-    }
-
-    body {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 20px 10px;
-      background: linear-gradient(to right, #74ebd5, #ACB6E5);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    .card {
-      background-color: var(--card-bg);
-      backdrop-filter: var(--blur);
-      padding: 24px 16px;
-      border-radius: 20px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-      text-align: center;
-      width: 100%;
-      max-width: 480px;
-      box-sizing: border-box;
-    }
-
-    .download-btn,
-    a.download-btn {
-      background-color: var(--main-color);
-      color: white;
-      border: none;
-      padding: 14px 20px;
-      font-size: 15px;
-      border-radius: 10px;
-      cursor: pointer;
-      margin: 10px auto;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      display: block;
-      width: 100%;
-      max-width: 300px;
-    }
-
-    @media (max-width: 500px) {
-      .card h1 {
-        font-size: 22px;
-      }
-
-      .card p {
-        font-size: 14px;
-      }
-
-      .checkboxes label {
-        font-size: 14px;
-      }
-
-      .header {
-        top: 10px;
-        left: 10px;
-        width: 28px;
-        height: 28px;
-      }
-    }
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
-      overflow-x: hidden;
-    }
-
-    .download-btn,
-    a.download-btn {
-      width: calc(100% - 20px);
-      max-width: 300px;
-      margin: 10px auto;
-    }
-
-    html,
-    body {
-      overflow-x: hidden;
-      width: 100%;
-    }
-
-    .card {
-      width: 100%;
-      max-width: 480px;
-      padding: 24px 16px;
-      margin: 0 auto;
-    }
-
-    .download-btn,
-    a.download-btn {
-      width: 100%;
-      max-width: 100%;
-      box-sizing: border-box;
-      padding: 14px 20px;
-      font-size: 15px;
-      border-radius: 10px;
-      margin: 10px 0;
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="header">
-    <img src="My logo.png" alt="Al-Hussien">
-  </div>
-
-  <div class="card">
-    <h1>تحميل التطبيقات</h1>
-    <p>اختر الطريقة المناسبة للتحميل:</p>
-
-    <button class="download-btn" onclick="downloadAll()">تحميل كل التطبيقات</button>
-
-
-    <button class="download-btn" onclick="toggleSection()">تحميل تطبيق معين</button>
-
-    <div id="appSection" class="section">
-      <div class="checkboxes">
-        <label><input type="checkbox"
-            value="https://cold3.gofile.io/download/web/ad077ba4-547f-48cb-8c86-4f5f7839b022/Email%20Generator.apk">
-          Email Generator</label>
-        <label><input type="checkbox"
-            value="https://cold3.gofile.io/download/web/9ed87aff-e231-4efd-ba25-02bdac4544ca/Fast%20Copy.apk"> Fast
-          Copy</label>
-        <label><input type="checkbox"
-            value="https://cold-eu-agl-1.gofile.io/download/web/cf1aca7f-258f-4d15-b05b-dddcfd030f7c/MultiSpace.apk">
-          MultiSpace</label>
-        <label><input type="checkbox"
-            value="https://cold5.gofile.io/download/web/b0a370b7-e03d-414e-a820-77eca5a49881/Dingtone.apk">
-          Dingtone</label>
-        <label><input type="checkbox"
-            value="https://store-eu-par-1.gofile.io/download/web/8870a1e7-0e01-45f8-b75f-5e1f79486052/Psiphon%20Pro.apk">
-          Psiphon Pro</label>
-      </div>
-      <button class="download-btn" onclick="downloadSelected()">تأكيد وتحميل المحدد</button>
-    </div>
-  </div>
-
-  <script>
-    function toggleSection() {
-      const section = document.getElementById('appSection');
-      section.classList.toggle('show');
-    }
-
-    function downloadSelected() {
-      const checkboxes = document.querySelectorAll('.checkboxes input[type="checkbox"]:checked');
-      if (checkboxes.length === 0) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'تنبيه',
-          text: 'يرجى اختيار تطبيق واحد على الأقل.',
-          confirmButtonText: 'حسنًا'
-        });
-        return;
-      }
-
-      Swal.fire({
-        title: 'هل أنت متأكد؟',
-        text: 'سيتم بدء تحميل التطبيقات التي قمت بتحديدها.',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'نعم، ابدأ التحميل',
-        cancelButtonText: 'إلغاء'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          checkboxes.forEach(cb => {
-            const link = document.createElement('a');
-            link.href = cb.value;
-            const fileName = decodeURIComponent(cb.value.split('/').pop().split('?')[0]);
-            link.setAttribute('download', fileName);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-          });
-        }
-      });
-    }
-    
-function downloadAll() {
-  const fileUrl = 'https://store-eu-par-3.gofile.io/download/web/e0ef29e9-3cf4-4011-b4d4-150b6e7aaecb/Work%20Apps.zip';
-
-  Swal.fire({
-    title: 'تنبيه بخصوص التحميل',
-    text: 'قد يتم فتح نافذة خارجية أو يحدث تأخير بسيط من المتصفح. بعد ذلك، سيتم التحميل مباشرة.',
-    icon: 'info',
-    showCancelButton: true,
-    confirmButtonText: 'فهمت، ابدأ التحميل',
-    cancelButtonText: 'إلغاء'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      const link = document.createElement('a');
-      link.href = fileUrl;
-      link.setAttribute('download', '');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  });
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  font-size: 22px;
+  z-index: 1000;
+  background: var(--card-bg);
+  border-radius: 50%;
+  padding: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 
+.header {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 100;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  </script>
-  <script src="sweetalert2.all.min.js"></script>
+.header img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: none;
+  appearance: none;
+}
+
+
+.card {
+  background-color: var(--card-bg);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 30px 20px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  animation: fadeInCard 1s ease;
+}
+
+.section {
+  opacity: 0;
+  max-height: 0;
+  overflow-y: auto;
+  transform: translateY(-20px);
+  transition: opacity 0.5s ease, max-height 0.5s ease, transform 0.5s ease;
+}
+
+.section.show {
+  opacity: 1;
+  max-height: 70vh;
+  transform: translateY(0);
+  overflow-y: auto;
+  margin-top: 20px;
+  animation: fadeInSection 0.8s ease;
+}
+
+.app-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  background-color: transparent;
+  border-radius: 12px;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 400px;
+  transition: background 0.3s ease;
+  position: relative;
+}
+
+.app-item:hover {
+  background-color: rgba(0,0,0,0.05);
+}
+
+.app-item.selected {
+  background-color: rgba(40, 167, 69, 0.15);
+}
+
+.app-item .checkmark {
+  display: none;
+}
+
+.app-item.selected .checkmark {
+  display: inline-block;
+  font-size: 18px;
+  color: var(--main-color);
+  animation: fadeInCheck 0.4s ease;
+}
+
+.app-item img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+}
+
+.name {
+  flex: 1;
+  text-align: center;
+}
+
+.size {
+  font-size: 14px;
+  color: #666;
+}
+
+.app-item.selected .size {
+  display: none;
+}
+
+.download-btn {
+  background-color: var(--main-color);
+  color: white;
+  border: none;
+  padding: 14px 20px;
+  font-size: 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.file-size {
+  font-size: 13px;
+  color: #888;
+  margin-top: 6px;
+}
+
+@media (max-width: 500px) {
+  .card {
+    padding: 20px 10px;
+  }
+
+  .app-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .app-item img {
+    margin-bottom: 8px;
+  }
+}
+
+#appSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (max-width: 350px) {
+  .card {
+    padding: 16px 8px;
+  }
+
+  .download-btn {
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+
+  .file-size,
+  .size {
+    font-size: 14px;
+  }
+}
+
+.app-list {
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 5px;
+}
+
+@media (min-width: 501px) {
+  .app-list {
+    max-height: 300px;
+  }
+}
+
+body {
+  overflow-x: hidden;
+}
+
+@media (max-width: 500px) {
+  .card {
+    margin: 20px 10px;
+    border-radius: 16px;
+  }
+}
+
+.card {
+  box-sizing: border-box;
+  padding: 24px 16px;
+  margin: 20px;
+  max-width: 500px;
+  width: calc(100% - 40px);
+}
+
+.fixed-confirm {
+  display: none;
+}
+
+.section.show + .fixed-confirm {
+  display: block;
+}
+</style>
+</head>
+<body>
+<div class="theme-toggle" onclick="toggleTheme()" title="تبديل الوضع">🌓</div>
+<div class="header">
+<img alt="Logo" src="My logo.png"/>
+</div>
+<div class="card">
+<h1>تحميل التطبيقات</h1>
+<p>اختر الطريقة المناسبة للتحميل:</p>
+<button class="download-btn" onclick="downloadAll()">تحميل كل التطبيقات</button>
+<div class="file-size">الحجم الكلي: 77.5MB</div>
+<button class="download-btn" onclick="toggleSection()">تحميل تطبيق معين</button>
+<div class="section" id="appSection"><div class="app-list"><div class="app-item" data-url="https://cold3.gofile.io/download/web/ad077ba4-547f-48cb-8c86-4f5f7839b022/Email%20Generator.apk" onclick="toggleSelect(this)">
+<img src="Apps Images/Email Generator.png"/> <!-- صورة التطبيق Email Generator -->
+<span class="name">Email Generator</span>
+<span class="size">4.4MB</span> <!-- حجم التطبيق Email Generator --><span class="checkmark">✔</span>
+</div><div class="app-item" data-url="https://cold3.gofile.io/download/web/9ed87aff-e231-4efd-ba25-02bdac4544ca/Fast%20Copy.apk" onclick="toggleSelect(this)">
+<img src="Apps Images/Fast Copy.png"/> <!-- صورة التطبيق Fast Copy -->
+<span class="name">Fast Copy</span>
+<span class="size">16.9MB</span> <!-- حجم التطبيق Fast Copy --><span class="checkmark">✔</span>
+</div><div class="app-item" data-url="https://cold-eu-agl-1.gofile.io/download/web/cf1aca7f-258f-4d15-b05b-dddcfd030f7c/MultiSpace.apk" onclick="toggleSelect(this)">
+<img src="Apps Images/Multispace.png"/> <!-- صورة التطبيق MultiSpace -->
+<span class="name">MultiSpace</span>
+<span class="size">10.7MB</span> <!-- حجم التطبيق MultiSpace --><span class="checkmark">✔</span>
+</div><div class="app-item" data-url="https://cold5.gofile.io/download/web/b0a370b7-e03d-414e-a820-77eca5a49881/Dingtone.apk" onclick="toggleSelect(this)">
+<img src="Apps Images/Dingtone.jpeg"/> <!-- صورة التطبيق Dingtone -->
+<span class="name">Dingtone</span>
+<span class="size">40.9MB</span> <!-- حجم التطبيق Dingtone --><span class="checkmark">✔</span>
+</div><div class="app-item" data-url="https://store-eu-par-1.gofile.io/download/web/8870a1e7-0e01-45f8-b75f-5e1f79486052/Psiphon%20Pro.apk" onclick="toggleSelect(this)">
+<img src="Apps Images/Psiphon.jpeg"/> <!-- صورة التطبيق Psiphon Pro -->
+<span class="name">Psiphon Pro</span>
+<span class="size">25.2MB</span> <!-- حجم التطبيق Psiphon Pro --><span class="checkmark">✔</span>
+</div></div></div><button class="download-btn fixed-confirm" onclick="downloadSelected()">تأكيد وتحميل المحدد</button>
+</div>
+<script src="sweetalert2.all.min.js"></script>
+<script>
+  function toggleTheme() {
+    const root = document.documentElement;
+    const newTheme = root.dataset.theme === "dark" ? "" : "dark";
+    root.dataset.theme = newTheme;
+    localStorage.setItem("theme", newTheme);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+  });
+
+  function toggleSection() {
+    const section = document.getElementById("appSection");
+    section.classList.toggle("show");
+  }
+
+  function toggleSelect(element) {
+    element.classList.toggle("selected");
+  }
+
+  function downloadSelected() {
+    const selectedItems = document.querySelectorAll('.app-item.selected');
+    if (selectedItems.length === 0) {
+      Swal.fire("تنبيه", "يرجى اختيار تطبيق واحد على الأقل.", "warning");
+      return;
+    }
+
+    Swal.fire({
+      title: "هل أنت متأكد؟",
+      text: "سيتم تحميل التطبيقات المحددة.",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "نعم، حمل الآن",
+      cancelButtonText: "إلغاء"
+    }).then(result => {
+      if (result.isConfirmed) {
+        selectedItems.forEach(item => {
+          const link = document.createElement("a");
+          link.href = item.dataset.url;
+          link.setAttribute("download", "");
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        });
+      }
+    });
+  }
+
+  function downloadAll() {
+    Swal.fire({
+      title: "تحميل كل التطبيقات",
+      text: "سيتم تحميل ملف مضغوط يحتوي على جميع التطبيقات.",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonText: "حسنًا، ابدأ التحميل",
+      cancelButtonText: "إلغاء"
+    }).then(result => {
+      if (result.isConfirmed) {
+        const link = document.createElement("a");
+        link.href = "https://store-eu-par-3.gofile.io/download/web/e0ef29e9-3cf4-4011-b4d4-150b6e7aaecb/Work%20Apps.zip";
+        link.setAttribute("download", "");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    });
+  }
+</script>
 </body>
-
 </html>
